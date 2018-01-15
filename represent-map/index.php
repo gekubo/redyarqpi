@@ -1,35 +1,51 @@
 <?php
-if(!file_exists('include/db.php')) require_once('installer.php');
 include_once "header.php";
 ?>
-
 <!DOCTYPE html>
 <html>
-  <head>
-    <!--
-    This site was based on the Represent.LA project by:
-    - Alex Benzer (@abenzer)
-    - Tara Tiger Brown (@tara)
-    - Sean Bonner (@seanbonner)
-
-    Create a map for your startup community!
-    https://github.com/abenzer/represent-map
-    -->
-    <title><?= $title_tag ?></title>
+	<head prefix="og: https://ogp.me/ns#">
+    <title>RedYarqPI - Red de yacimientos arqueológicos de la Península Ibérica</title>
+    <meta name="description" content="Este mapa ha sido elaborado para mostrar y promocionar los yacimientos arqueológicos de la Península Ibérica, preciosa herencia de nuestro antiguo y rico legado. Iremos añadiendo lugares de interés pero necesitamos tu ayuda para mantenerlo activo y actualizado.">
+    <meta name="author" content="Guillermo García Galindo">
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta charset="UTF-8">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700|Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link href="./bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" />
-    <link href="./bootstrap/css/bootstrap-responsive.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="map.css?nocache=289671982568" type="text/css" />
-    <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="mobile.css" type="text/css" />
-    <script src="./scripts/jquery-1.7.1.js" type="text/javascript" charset="utf-8"></script>
-    <script src="./bootstrap/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
-    <script src="./bootstrap/js/bootstrap-typeahead.js" type="text/javascript" charset="utf-8"></script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
-    <script type="text/javascript" src="./scripts/label.js"></script>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="shortcut icon" href="./images/favicon.ico"/>
+    <link rel="apple-touch-icon" href="./images/favicon.png"/>
+    <link href="./bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+    <link href="./bootstrap/css/bootstrap-responsive.css" rel="stylesheet" type="text/css"/>
+    <link href="style.css" rel="stylesheet" type="text/css"/>
+    <!-- Google Authorship -->
+	<link rel="author" href="https://plus.google.com/115933468521200727206"/>
+	<link rel="publisher" href="https://plus.google.com/111601786821680623100"/>
+	<!-- Google+ Schema markup -->
+	<meta itemprop="name" content="RedYarqPI - Red de yacimientos arqueológicos de la Península Ibérica">
+	<meta itemprop="description" content="Este mapa ha sido elaborado para mostrar y promocionar los yacimientos arqueológicos de la Península Ibérica, preciosa herencia de nuestro antiguo y rico legado. Iremos añadiendo lugares de interés pero necesitamos tu ayuda para mantenerlo activo y actualizado.">
+	<meta itemprop="image" content="./images/thumb.png">
+	<!-- Twitter Card data -->
+	<meta name="twitter:card" content="summary"/>
+	<meta name="twitter:url" content="https://redyarqpi.orientalia.com.es"/>
+	<meta name="twitter:site" content="@orientweet"/>
+	<meta name="twitter:creator" content="@gekubo"/>
+	<meta name="twitter:title" content="RedYarqPI - Red de yacimientos arqueológicos de la Península Ibérica"/>
+	<meta name="twitter:description" content="Este mapa ha sido elaborado para mostrar y promocionar los yacimientos arqueológicos de la Península Ibérica, preciosa herencia de nuestro antiguo y rico legado. Iremos añadiendo lugares de interés pero necesitamos tu ayuda para mantenerlo activo y actualizado."/>
+	<meta name="twitter:image" content="./images/thumb.png"/>
 
-    <script type="text/javascript">
+	<!-- Facebook Open Graph data -->
+	<meta property="og:title" content="RedYarqPI - Red de yacimientos arqueológicos de la Península Ibérica">
+	<meta property="og:site_name" content="RedYarqPI">
+	<meta property="og:description" content="Este mapa ha sido elaborado para mostrar y promocionar los yacimientos arqueológicos de la Península Ibérica, preciosa herencia de nuestro antiguo y rico legado. Iremos añadiendo lugares de interés pero necesitamos tu ayuda para mantenerlo activo y actualizado.">
+	<meta property="og:type" content="website"/>
+	<meta property="og:image" content="./images/thumb.png">
+	<meta property="og:image:type" content="image/png">
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="./bootstrap/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+	<script src="./bootstrap/js/bootstrap-typeahead.js" type="text/javascript" charset="utf-8"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key= AIzaSyCMSvQ8H4ZQ951EnBmesrp5JM8_s7PxvCA" type="text/javascript"></script>
+	<script type="text/javascript" src="./scripts/label.js"></script>
+	<script type="text/javascript" src="./scripts/menu.js"></script>
+	<script type="text/javascript">
       var map;
       var infowindow = null;
       var gmarkers = [];
@@ -37,7 +53,6 @@ include_once "header.php";
       var highestZIndex = 0;
       var agent = "default";
       var zoomControl = true;
-
 
       // detect browser agent
       $(document).ready(function(){
@@ -51,7 +66,6 @@ include_once "header.php";
         }
       });
 
-
       // resize marker list onload/resize
       $(document).ready(function(){
         resizeList()
@@ -62,11 +76,10 @@ include_once "header.php";
 
       // resize marker list to fit window
       function resizeList() {
-        newHeight = $('html').height() - $('#topbar').height();
+        newHeight = $('html').height() - $('#navbar').height();
         $('#list').css('height', newHeight + "px");
-        $('#menu').css('margin-top', $('#topbar').height());
+        $('#menu').css('margin-top', $('#navbar').height());
       }
-
 
       // initialize map
       function initialize() {
@@ -131,18 +144,25 @@ include_once "header.php";
 
         // set map options
         var myOptions = {
-          zoom: 11,
+          zoom: 6,
           //minZoom: 10,
-          center: new google.maps.LatLng(<?= $lat_lng ?>),
+          center: new google.maps.LatLng(40,-1),
           mapTypeId: google.maps.MapTypeId.ROADMAP,
           streetViewControl: false,
-          mapTypeControl: false,
+          mapTypeControl: true,
+          mapTypeControlOptions: {
+	      style: google.maps.MapTypeControlStyle.DEFAULT,
+	      position: google.maps.ControlPosition.TOP_RIGHT
+	      },
           panControl: false,
+          panControlOptions: {
+	      position: google.maps.ControlPosition.RIGHT_BOTTOM
+	      },
           zoomControl: zoomControl,
           styles: mapStyles,
           zoomControlOptions: {
-            style: google.maps.ZoomControlStyle.SMALL,
-            position: google.maps.ControlPosition.LEFT_CENTER
+            style: google.maps.ZoomControlStyle.DEFAULT,
+            position: google.maps.ControlPosition.RIGHT_CENTER
           }
         };
         map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
@@ -150,7 +170,7 @@ include_once "header.php";
 
         // prepare infowindow
         infowindow = new google.maps.InfoWindow({
-          content: "holding..."
+          content: "cargando..."
         });
 
         // only show marker labels if zoomed in
@@ -164,23 +184,24 @@ include_once "header.php";
         });
 
         // markers array: name, type (icon), lat, long, description, uri, address
-        markers = new Array();
+        markers = [];
         <?php
           $types = Array(
-              Array('startup', 'Startups'),
-              Array('accelerator','Accelerators'),
-              Array('incubator', 'Incubators'),
-              Array('coworking', 'Coworking'),
-              Array('investor', 'Investors'),
-              Array('service', 'Consulting'),
-              Array('hackerspace', 'Hackerspaces'),
-              Array('event', 'Events'),
+              Array('paleo', 'paleo'),
+              Array('neo','neo'),
+              Array('calco','calco'),
+              Array('colon', 'colon'),
+              Array('pre', 'pre'),
+              Array('roma', 'roma'),
+              Array('media', 'media'),
+              Array('otros', 'otros'),
+              Array('event', 'Event'),
               );
           $marker_id = 0;
           foreach($types as $type) {
-            $places = mysql_query("SELECT * FROM places WHERE approved='1' AND type='$type[0]' ORDER BY title");
-            $places_total = mysql_num_rows($places);
-            while($place = mysql_fetch_assoc($places)) {
+            $places = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM places WHERE approved='1' AND type='$type[0]' ORDER BY title");
+            $places_total = mysqli_num_rows($places);
+            while($place = mysqli_fetch_assoc($places)) {
               $place[title] = htmlspecialchars_decode(addslashes(htmlspecialchars($place[title])));
               $place[description] = str_replace(array("\n", "\t", "\r"), "", htmlspecialchars_decode(addslashes(htmlspecialchars($place[description]))));
               $place[uri] = addslashes(htmlspecialchars($place[uri]));
@@ -195,16 +216,16 @@ include_once "header.php";
           }
           if($show_events == true) {
             $place[type] = "event";
-            $events = mysql_query("SELECT * FROM events WHERE start_date > ".time()." AND start_date < ".(time()+9676800)." ORDER BY id DESC");
-            $events_total = mysql_num_rows($events);
-            while($event = mysql_fetch_assoc($events)) {
+            $events = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM events WHERE approved='1' ORDER BY id DESC");
+            $events_total = mysqli_num_rows($events);
+            while($event = mysqli_fetch_assoc($events)) {
               $event[title] = htmlspecialchars_decode(addslashes(htmlspecialchars($event[title])));
-              $event[description] = htmlspecialchars_decode(addslashes(htmlspecialchars($event[description])));
+              $event[organizer_name] = htmlspecialchars_decode(addslashes(htmlspecialchars($event[organizer_name])));
               $event[uri] = addslashes(htmlspecialchars($event[uri]));
               $event[address] = htmlspecialchars_decode(addslashes(htmlspecialchars($event[address])));
-              $event[start_date] = date("D, M j @ g:ia", $event[start_date]);
+              $event[date] = htmlspecialchars_decode(addslashes(htmlspecialchars($event[date])));
               echo "
-                markers.push(['".$event[title]."', 'event', '".$event[lat]."', '".$event[lng]."', '".$event[start_date]."', '".$event[uri]."', '".$event[address]."']);
+                markers.push(['".$event[title]."', 'event', '".$event[lat]."', '".$event[lng]."', '".$event[date]."', '".$event[uri]."', '".$event[address]."']);
                 markerTitles[".$marker_id."] = '".$event[title]."';
               ";
               $count[$place[type]]++;
@@ -370,77 +391,77 @@ include_once "header.php";
   </head>
   <body>
 
+
+
+
     <!-- display error overlay if something went wrong -->
     <?php echo $error; ?>
-
-    <!-- facebook like button code -->
-    <div id="fb-root"></div>
-    <script>(function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=421651897866629";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
 
     <!-- google map -->
     <div id="map_canvas"></div>
 
-    <!-- topbar -->
-    <div class="topbar" id="topbar">
+    <!-- navbar -->
+    <div class="navbar" id="navbar">
       <div class="wrapper">
         <div class="right">
           <div class="share">
-          <a href="https://twitter.com/share" class="twitter-share-button" data-url="<?= $domain ?>" data-text="<?= $twitter['share_text'] ?>" data-via="<?= $twitter['username'] ?>" data-count="none">Tweet</a>
-            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-            <div class="fb-like" data-href="<?= $domain ?>" data-send="false" data-layout="button_count" data-width="100" data-show-faces="false" data-font="arial"></div>
+<div class="fb-share-button" data-href="https://redyarqpi.orientalia.com.es" data-layout="button_count"></div>
+<a class="twitter-share-button" data-text="Mapa para situar yacimientos arqueológicos. AÑADE EL TUYO! Difundir para preservar!!!" data-via="orientweet" data-hashtags="heritage" href="https://redyarqpi.orientalia.com.es">Tweet</a>
+<div class="g-plus" data-action="share" data-annotation="bubble"></div>
           </div>
+          <div class="donate">
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+<input type="hidden" name="cmd" value="_donations">
+<input type="hidden" name="business" value="7TPD2BY2D3TL2">
+<input type="hidden" name="lc" value="ES">
+<input type="hidden" name="item_name" value="RedYarqPI">
+<input type="hidden" name="item_number" value="xxx">
+<input type="hidden" name="currency_code" value="EUR">
+<input type="hidden" name="bn" value="PP-DonationsBF:btn_donate_SM.gif:NonHosted">
+<input type="image" src="https://www.paypalobjects.com/es_ES/ES/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="Donación a RedYarqPI">
+<img alt="" border="0" src="https://www.paypalobjects.com/es_ES/i/scr/pixel.gif" width="1" height="1">
+</form>
+</div>
         </div>
         <div class="left">
-          <div class="logo">
-            <a href="./">
-              <img src="images/logo.png" alt="" />
-            </a>
-          </div>
+         	<a id="navi" href="#sidr">#<br>MENU</a>
+            <a class="logo" href="/"><img src="./images/logo.png" alt="RedYarqPI" /></a>
           <div class="buttons">
-            <a href="#modal_info" class="btn btn-large btn-info" data-toggle="modal"><i class="icon-info-sign icon-white"></i>About this Map</a>
-            <?php if($sg_enabled) { ?>
-              <a href="#modal_add_choose" class="btn btn-large btn-success" data-toggle="modal"><i class="icon-plus-sign icon-white"></i>Add Something</a>
-            <? } else { ?>
-              <a href="#modal_add" class="btn btn-large btn-success" data-toggle="modal"><i class="icon-plus-sign icon-white"></i>Add Something</a>
-            <? } ?>
+            <a href="#modal_info" class="btn btn-large btn-info" data-toggle="modal"><i class="icon-info-sign icon-white"></i>Acerca del proyecto</a>
+            <a href="#modal_place" class="btn btn-large btn-success" data-toggle="modal"><i class="icon-plus-sign icon-white"></i>Añade un yacimiento</a>
           </div>
           <div class="search">
-            <input type="text" name="search" id="search" placeholder="Search for companies..." data-provide="typeahead" autocomplete="off" />
+            <input type="text" name="search" id="search" placeholder="Buscar yacimientos..." data-provide="typeahead" autocomplete="off" />
           </div>
         </div>
       </div>
     </div>
 
-    <!-- right-side gutter -->
-    <div class="menu" id="menu">
+    <!-- right-side menu -->
+<div id="sidr">
       <ul class="list" id="list">
         <?php
           $types = Array(
-              Array('startup', 'Startups'),
-              Array('accelerator','Accelerators'),
-              Array('incubator', 'Incubators'),
-              Array('coworking', 'Coworking'),
-              Array('investor', 'Investors'),
-              Array('service', 'Consulting'),
-              Array('hackerspace', 'Hackerspaces')
+              Array('paleo', 'Cuevas y abrigos'),
+              Array('neo','Megalitismo'),
+              Array('calco', 'Edad de los metales'),
+              Array('colon', 'Colonizaciones'),
+              Array('pre', 'Pueblos prerromanos'),
+              Array('roma', 'Roma'),
+              Array('media', 'Edad Media'),
+              Array('otros', 'Posteriores')
               );
           if($show_events == true) {
-            $types[] = Array('event', 'Events');
+            $types[] = Array('event', 'Excavaciones');
           }
           $marker_id = 0;
           foreach($types as $type) {
             if($type[0] != "event") {
-              $markers = mysql_query("SELECT * FROM places WHERE approved='1' AND type='$type[0]' ORDER BY title");
+              $markers = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM places WHERE approved='1' AND type='$type[0]' ORDER BY title");
             } else {
-              $markers = mysql_query("SELECT * FROM events WHERE start_date > ".time()." AND start_date < ".(time()+4838400)." ORDER BY id DESC");
+              $markers = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM events WHERE approved='1' ORDER BY id DESC");
             }
-            $markers_total = mysql_num_rows($markers);
+            $markers_total = mysqli_num_rows($markers);
             echo "
               <li class='category'>
                 <div class='category_item'>
@@ -449,7 +470,7 @@ include_once "header.php";
                 </div>
                 <ul class='list-items list-$type[0]'>
             ";
-            while($marker = mysql_fetch_assoc($markers)) {
+            while($marker = mysqli_fetch_assoc($markers)) {
               echo "
                   <li class='".$marker[type]."'>
                     <a href='#' onMouseOver=\"markerListMouseOver('".$marker_id."')\" onMouseOut=\"markerListMouseOut('".$marker_id."')\" onClick=\"goToMarker('".$marker_id."');\">".$marker[title]."</a>
@@ -463,146 +484,136 @@ include_once "header.php";
             ";
           }
         ?>
-        <li class="blurb"><?= $blurb ?></li>
+        <li class="blurb">
+Este proyecto se ha lanzado con el objetivo de poner al alcance de aquellos interesados el mayor número posible de  yacimientos arqueológicos de la Península Ibérica. Ya sea para visitarlos, protegerlos o trabajar en ellos. La motivación como puedes comprobar no es un problema mientras el objetivo final sea el mismo: <b>¡¡¡difundir nuestro patrimonio como forma de preservarlo!!!</b>
+        </li>
         <li class="attribution">
-          <!-- per our license, you may not remove this line -->
+        	<!-- per our license, you may not remove this line -->
           <?=$attribution?>
         </li>
       </ul>
-    </div>
+<div class="clear"></div>
+</div>
 
     <!-- more info modal -->
     <div class="modal hide" id="modal_info">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
-        <h3>About this Map</h3>
+        <h3>Acerca del proyecto</h3>
       </div>
       <div class="modal-body">
         <p>
-          We built this map to connect and promote the tech startup community
-          in our beloved Los Angeles. We've seeded the map but we need
-          your help to keep it fresh. If you don't see your company, please
-          <?php if($sg_enabled) { ?>
-            <a href="#modal_add_choose" data-toggle="modal" data-dismiss="modal">submit it here</a>.
-          <?php } else { ?>
-            <a href="#modal_add" data-toggle="modal" data-dismiss="modal">submit it here</a>.
-          <?php } ?>
-          Let's put LA on the map together!
+          Este mapa ha sido elaborado para mostrar y promocionar los yacimientos arqueológicos de la Península Ibérica, preciosa herencia de nuestro antiguo y rico legado. Iremos añadiendo lugares de interés pero necesitamos tu ayuda para mantenerlo activo y actualizado. Si no encuentras un yacimiento que consideras debiera estar incluido, por favor no dudes en <a href="#modal_place" data-toggle="modal" data-dismiss="modal">añadirlo aquí</a>.
+          <h3>¡¡¡Difundir para preservar!!!</h3>
         </p>
         <p>
-        Questions? Feedback? Connect with us: <a href="http://www.twitter.com/<?= $twitter['username'] ?>" target="_blank">@<?= $twitter['username'] ?></a>
+          ¿Preguntas? ¿Sugerencias? ¿Erratas? Contacta con nosotros a través de cualquiera de los siguiente medios:
+          <ul>
+          <li>blog: <a href="https://www.orientalia.com.es" target="_blank">Orientalia</a></li>
+          <li>facebook: <a href="https://www.facebook.com/orientlike" target="_blank">orientlike</a></li>
+          <li>twitter: <a href="https://www.twitter.com/orientweet" target="_blank">@orientweet</a></li>
+          <li>e-mail: <a href="mailto:orientalia@outlook.com?subject=RedYarqPI">orientalia@outlook.com</a></li>
+          </ul>
         </p>
-        <p>
-          If you want to support the LA community by linking to this map from your website,
-          here are some badges you might like to use. You can also grab the <a href="./images/badges/LA-icon.ai">LA icon AI file</a>.
-        </p>
-        <ul class="badges">
-          <li>
-            <img src="./images/badges/badge1.png" alt="">
-          </li>
-          <li>
-            <img src="./images/badges/badge1_small.png" alt="">
-          </li>
-          <li>
-            <img src="./images/badges/badge2.png" alt="">
-          </li>
-          <li>
-            <img src="./images/badges/badge2_small.png" alt="">
-          </li>
-        </ul>
-        <p>
-          This map was built with <a href="https://github.com/abenzer/represent-map">RepresentMap</a> - an open source project we started
-          to help startup communities around the world create their own maps.
-          Check out some <a target="_blank" href="http://www.representmap.com">startup maps</a> built by other communities!
-        </p>
+        <img src="./images/logo.png" alt="RedYarqPI" align="middle"/>
+        <p>Si quieres enlazar con nosotros para promocionar esta iniciativa, <a href="./images/banner.psd">aquí</a> encontrarás algunos divertidos banners que servirán a tal propósito. Si deseas contribuir de forma económica, puedes enviar tu donación a través de <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=7TPD2BY2D3TL2&lc=ES&item_name=RedYarqPI&item_number=xxx&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" alt="Donación a RedYarqPI" target="_blank">PayPal®</a>. Todo lo recaudado irá destinado a la mejora de los servidores y mantenimiento de la web.</p>
+        <p>Este mapa ha sido creado a partir de <a href="https://github.com/abenzer/represent-map">RepresentMap</a>, un proyecto de código abierto (open source) para ayudar a iniciativas de todo el Mundo que necesiten disponer de sus propios mapas.</p>
       </div>
       <div class="modal-footer">
-        <a href="#" class="btn" data-dismiss="modal" style="float: right;">Close</a>
+        <a href="#" class="btn" data-dismiss="modal" style="float: right;">Cerrar</a>
       </div>
     </div>
 
-
     <!-- add something modal -->
-    <div class="modal hide" id="modal_add">
-      <form action="add.php" id="modal_addform" class="form-horizontal">
+    <div class="modal hide" id="modal_place">
+      <form action="add1.php" id="modal_add1" class="form-horizontal">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">×</button>
-          <h3>Add something!</h3>
+          <h3>Añade un yacimiento</h3>
         </div>
         <div class="modal-body">
-          <div id="result"></div>
+           <p>¿Quieres añadir el yacimiento con el que disfrutaste una agradable y educativa visita, en el que te has deslomado trabajando o alguno que desees denunciar su estado de abandono? Es tan sencillo como rellenar el siguiente formulario y esperar a que revisemos tu solicitud.</p><br/>
           <fieldset>
             <div class="control-group">
-              <label class="control-label" for="add_owner_name">Your Name</label>
+              <label class="control-label" for="add_owner_name">Nombre:</label>
               <div class="controls">
                 <input type="text" class="input-xlarge" name="owner_name" id="add_owner_name" maxlength="100">
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label" for="add_owner_email">Your Email</label>
+              <label class="control-label" for="add_owner_email">Correo electrónico:</label>
               <div class="controls">
                 <input type="text" class="input-xlarge" name="owner_email" id="add_owner_email" maxlength="100">
+                <p class="help-block">
+                  No te preocupes. No será visible al resto de usuarios.
+                </p>
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label" for="add_title">Company Name</label>
+              <label class="control-label" for="add_title">Nombre del yacimiento:</label>
               <div class="controls">
                 <input type="text" class="input-xlarge" name="title" id="add_title" maxlength="100" autocomplete="off">
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label" for="input01">Company Type</label>
+              <label class="control-label" for="input01">Cronología / tipo de yacimiento:</label>
               <div class="controls">
                 <select name="type" id="add_type" class="input-xlarge">
-                  <option value="startup">Startup</option>
-                  <option value="accelerator">Accelerator</option>
-                  <option value="incubator">Incubator</option>
-                  <option value="coworking">Coworking</option>
-                  <option value="investor">VC/Angel</option>
-                  <option value="service">Consulting Firm</option>
-                  <option value="hackerspace">Hackerspace</option>
+                  <option value="paleo">Cuevas y abrigos</option>
+                  <option value="neo">Megalitismo</option>
+                  <option value="calco">Edad de los metales</option>
+                  <option value="colon">Colonizaciones</option>
+                  <option value="pre">Pueblos prerromanos</option>
+                  <option value="roma">Roma</option>
+                  <option value="media">Edad Media</option>
+                  <option value="otros">Posteriores</option>
                 </select>
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label" for="add_address">Address</label>
+              <label class="control-label" for="add_address">Coordenadas geográficas</label>
               <div class="controls">
                 <input type="text" class="input-xlarge" name="address" id="add_address">
-                <p class="help-block">
-                  Should be your <b>full street address (including city and zip)</b>.
-                  If it works on Google Maps, it will work here.
-                </p>
+                <p class="help-block">Puedes poner un lugar de referencia o especificar las coordenadas exactas para una mayor precisión, ejemplo "40.7278, -4.7011". Si conseguiste localizarlo en <a href="https://www.maps.google.es" target="_blank">Google Maps®</a> debería funcionarte aquí. Si tienes alguna duda consulta <a href="https://www.agenciacreativa.net/coordenadas_google_maps.php" target="_blank">esta página</a>.</p>
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label" for="add_uri">Website URL</label>
+              <label class="control-label" for="add_uri">Web informativa</label>
               <div class="controls">
                 <input type="text" class="input-xlarge" id="add_uri" name="uri" placeholder="http://">
                 <p class="help-block">
-                  Should be your full URL with no trailing slash, e.g. "http://www.yoursite.com"
+                  Debes poner un enlace a un sitio web que aporte información fiable y actualizada sobre el yacimiento, ejemplo: "http://www.yoursite.com"
                 </p>
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label" for="add_description">Description</label>
+              <label class="control-label" for="add_description">Descripción</label>
               <div class="controls">
-                <input type="text" class="input-xlarge" id="add_description" name="description" maxlength="150">
+              	<textarea class="input input-xlarge" id="add_description" name="description"></textarea>
                 <p class="help-block">
-                  Brief, concise description. What's your product? What problem do you solve? Max 150 chars.
+                  Breve y concisa (máx. 500 caracteres). Sería conveniente responder a los siguientes puntos:
+                  <ul>
+                  	<li>Estado (abandono, exvacaciones en curso, visitable, museizado...)</li>
+                  	<li>Acceso (coche, bici, pendiente pronunciada...)</li>
+                  	<li>Duración media de la visita</li>
+                  	<li>Otros atractivos (entorno, localidades...)</li>
+                  </ul>
                 </p>
               </div>
             </div>
+          <p class="help-block"><span style="color:#f07979">NOTAS IMPORTANTES:</span><br/>1-Asegúrate que no se encuentra indexado haciendo un simple búsqueda en la barra inferior. <br/>2-Si quieres informarnos de alguna campaña arqueológica o taller es mejor que rellenes este otro <a href="#modal_event" data-toggle="modal" data-dismiss="modal">formulario</a>.</p>
           </fieldset>
+          <div id="result"></div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">Submit for Review</button>
-          <a href="#" class="btn" data-dismiss="modal" style="float: right;">Close</a>
+          <button type="submit" class="btn btn-info">Enviar para su revisión</button>
+          <a href="#" class="btn" data-dismiss="modal" style="float: right;">Cerrar</a>
         </div>
       </form>
     </div>
     <script>
       // add modal form submit
-      $("#modal_addform").submit(function(event) {
+      $("#modal_add1").submit(function(event) {
         event.preventDefault();
         // get values
         var $form = $( this ),
@@ -622,57 +633,144 @@ include_once "header.php";
 
             // if submission was successful, show info alert
             if(data == "success") {
-              $("#modal_addform #result").html("We've received your submission and will review it shortly. Thanks!");
-              $("#modal_addform #result").addClass("alert alert-info");
-              $("#modal_addform p").css("display", "none");
-              $("#modal_addform fieldset").css("display", "none");
-              $("#modal_addform .btn-primary").css("display", "none");
+              $("#modal_add1 #result").html("¡Todo correcto! Hemos recibido tu solicitud y será revisada con la mayor rapidez posible. ¡Gracias por colaborar!");
+              $("#modal_add1 #result").addClass("alert alert-info");
+              $("#modal_add1 p").css("display", "none");
+              $("#modal_add1 fieldset").css("display", "none");
+              $("#modal_add1 .btn-primary").css("display", "none");
 
             // if submission failed, show error
             } else {
-              $("#modal_addform #result").html(data);
-              $("#modal_addform #result").addClass("alert alert-danger");
+              $("#modal_add1 #result").html(data);
+              $("#modal_add1 #result").addClass("alert alert-danger");
             }
           }
         );
       });
     </script>
 
-    <!-- startup genome modal -->
-    <div class="modal hide" id="modal_add_choose">
-      <form action="add.php" id="modal_addform_choose" class="form-horizontal">
+    <!-- add event modal -->
+ <div class="modal hide" id="modal_event">
+      <form action="add2.php" id="modal_add2" class="form-horizontal">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">×</button>
-          <h3>Add something!</h3>
+          <h3>Infórmanos de un evento</h3>
         </div>
         <div class="modal-body">
-          <p>
-            Want to add your company to this map? There are two easy ways to do that.
-          </p>
-          <ul>
-            <li>
-              <em>Option #1: Add your company to Startup Genome</em>
-              <div>
-                Our map pulls its data from <a href="http://www.startupgenome.com">Startup Genome</a>.
-                When you add your company to Startup Genome, it will appear on this map after it has been approved.
-                You will be able to change your company's information anytime you want from the Startup Genome website.
+          <p>¿Eres una universidad, asociación o empresa que necesita reclutar personal para sus trabajos arqueológicos? ¿Quieres dar a conocer el yacimiento donde pasaste aquel maravilloso verano, cuando te quemaste todos los miembros que se te olvidó cubrir y conociste a montón de buena gente con la que compartiste conocimientos y experiencias? En tal caso, no dudes en hacérnoslo saber para que actualicemos nuestra base de datos.</p><br/>
+          <fieldset>
+            <div class="control-group">
+              <label class="control-label" for="add_title">Título:</label>
+              <div class="controls">
+                <input type="text" class="input-xlarge" name="title" id="add_title" maxlength="100">
               </div>
-              <br />
-              <a href="http://www.startupgenome.com" target="_blank" class="btn btn-info">Sign in to Startup Genome</a>
-            </li>
-            <li>
-              <em>Option #2: Add your company manually</em>
-              <div>
-                If you don't want to sign up for Startup Genome, you can still add your company to this map.
-                We will review your submission as soon as possible.
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="add_organizer_name">Organizador:</label>
+              <div class="controls">
+                <input type="text" class="input-xlarge" name="organizer_name" id="add_organizer_name" maxlength="100">
               </div>
-              <br />
-          <a href="#modal_add" target="_blank" class="btn btn-info" data-toggle="modal" data-dismiss="modal">Submit your company manually</a>
-            </li>
-          </ul>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="add_uri">Web:</label>
+              <div class="controls">
+                <input type="text" class="input-xlarge" name="uri" id="add_uri" placeholder="http://">
+                <p class="help-block">
+                  Debes poner un enlace a un sitio web o cartel que aporte información fiable y actualizada sobre la excavación, ejemplo: "http://www.yoursite.com"
+                </p>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="add_uri">Fechas:</label>
+              <div class="controls">
+                <input type="text" class="input-xlarge" name="date" id="add_date" maxlength="100">
+                <p class="help-block">
+                  Debes especificar el periodo de duración de la excavación y el número de turnos establecidos. Por ejemplo, "del 15 de agosto al 15 de septiembre de 2013 (dos turnos)"
+                </p>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="add_address">Lugar:</label>
+              <div class="controls">
+                <input type="text" class="input-xlarge" name="address" id="add_address">
+                <p class="help-block">Puedes poner un lugar de referencia o especificar las coordenadas exactas para una mayor precisión, ejemplo "40.7278, -4.7011". Si conseguiste localizarlo en <a href="https://www.maps.google.es" target="_blank">Google Maps®</a> debería funcionarte aquí. Si tienes alguna duda consulta <a href="https://www.agenciacreativa.net/coordenadas_google_maps.php" target="_blank">esta página</a>.</p>
+              </div>
+            </div>
+          </fieldset>
+         <div id="result"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-info">Enviar para su revisión</button>
+          <a href="#" class="btn" data-dismiss="modal" style="float: right;">Cerrar</a>
         </div>
       </form>
     </div>
+    <script>
+      // add modal form submit
+      $("#modal_add2").submit(function(event) {
+        event.preventDefault();
+        // get values
+        var $form = $( this ),
+            title = $form.find( '#add_title' ).val(),
+            organizer_name = $form.find( '#add_organizer_name' ).val(),
+            uri = $form.find( '#add_uri' ).val(),
+            date = $form.find( '#add_date' ).val(),
+            address = $form.find( '#add_address' ).val(),
+            url = $form.attr( 'action' );
 
-  </body>
-</html>
+        // send data and get results
+        $.post( url, { title: title, organizer_name: organizer_name, uri: uri, date: date, address: address },
+          function( data ) {
+            var content = $( data ).find( '#content' );
+
+            // if submission was successful, show info alert
+            if(data == "success") {
+              $("#modal_add2 #result").html("¡Todo correcto! Hemos recibido tu solicitud y será revisada con la mayor rapidez posible. ¡Gracias por colaborar!");
+              $("#modal_add2 #result").addClass("alert alert-info");
+              $("#modal_add2 p").css("display", "none");
+              $("#modal_add2 fieldset").css("display", "none");
+              $("#modal_add2 .btn-primary").css("display", "none");
+
+            // if submission failed, show error
+            } else {
+              $("#modal_add2 #result").html(data);
+              $("#modal_add2 #result").addClass("alert alert-danger");
+            }
+          }
+        );
+      });
+    </script>
+
+ <script>
+ 	(function () {
+ 	$('#navi').sidr();
+ 	})();
+ </script>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v2.5";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<script>window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  fjs.parentNode.insertBefore(js, fjs);
+
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+
+  return t;
+}(document, "script", "twitter-wjs"));</script>
+	<script src="https://apis.google.com/js/platform.js" async defer>
+</body>
+</html>;

@@ -18,7 +18,7 @@ if($task == "dologin") {
   $input_user = htmlspecialchars($_POST['user']);
   $input_pass = htmlspecialchars($_POST['pass']);
   if(trim($input_user) == "" || trim($input_pass) == "") {
-    $alert = "Nope. Wanna try that again?";
+    $alert = "Nupe. Inténtalo de nuevo";
   } else {
     if(crypt($input_user, $admin_user) == crypt($admin_user, $admin_user) && crypt($input_pass, $admin_pass) == crypt($admin_pass,$admin_pass)) {
       setcookie("representmap_user", crypt($input_user, $admin_user), time()+3600000);
@@ -26,7 +26,7 @@ if($task == "dologin") {
       header("Location: index.php");
       exit;
     } else {
-      $alert = "The information you provided was invalid. :(";
+      $alert = "Usuario o contraseña erróneos :(";
     }
   }
 }
@@ -42,7 +42,7 @@ if($task == "dologin") {
 
 <form class="well form-inline" action="login.php" id="login" method="post">
   <h1>
-    RepresentMap Admin
+    RedYarqPI
   </h1>
   <?
     if($alert != "") {
@@ -53,9 +53,9 @@ if($task == "dologin") {
       ";
     }
   ?>
-  <input type="text" name="user" class="input-large" placeholder="Username">
-  <input type="password" name="pass" class="input-large" placeholder="Password">
-  <button type="submit" class="btn btn-info">Sign in</button>
+  <input type="text" name="user" class="input-large" placeholder="Usuario">
+  <input type="password" name="pass" class="input-large" placeholder="Contrase&ntilde;a">
+  <button type="submit" class="btn btn-info">Acceder</button>
   <input type="hidden" name="task" value="dologin" />
 </form>
 

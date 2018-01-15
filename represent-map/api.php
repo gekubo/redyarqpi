@@ -8,12 +8,12 @@
   };
 
   $marker_id = 0;
-  $places = mysql_query("SELECT * FROM places WHERE approved='1' ORDER BY title");
-  $places_total = mysql_num_rows($places);
+  $places = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM places WHERE approved='1' ORDER BY title");
+  $places_total = mysqli_num_rows($places);
   
   echo '{ "type": "FeatureCollection", "features": [';
   
-  while($place = mysql_fetch_assoc($places)) {
+  while($place = mysqli_fetch_assoc($places)) {
     $newplace = Array( );
     $newplace["type"] = "Feature";
     $newplace["properties"] = Array(
@@ -37,5 +37,3 @@
   }
   
   echo '] }';
-  
-?>

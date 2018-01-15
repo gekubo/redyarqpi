@@ -78,6 +78,10 @@ textarea.input
   width: 400px;
 }
 
+#map img{
+	max-width: 1000px;
+}
+
 
 /* admin layout */
 #admin
@@ -147,11 +151,8 @@ textarea.input
 
 /* login form */
 #login h1
-{
-  margin-bottom: 20px;
-}
+{margin-bottom: 20px;}
 
-/* fix Bootstrap max-width issue with Google Maps */
-#map img{
-  max-width: 1000px;
-}
+/* edit form */
+.control-label
+{font-weight: bold;}

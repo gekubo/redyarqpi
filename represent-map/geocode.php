@@ -20,14 +20,14 @@ function geocode($table) {
   global $hide_geocode_output;
 
   // get places that don't have latlong values
-  $result = mysql_query("SELECT * FROM $table WHERE lat=0 OR lng=0") or die(mysql_error());
+  $result = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM $table WHERE lat=0 OR lng=0") or die(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
 
   // geocode and save them back to the db
   $delay = 0;
   $base_url = "http://" . MAPS_HOST . "/maps/api/geocode/xml";
 
   // Iterate through the rows, geocoding each address
-  while ($row = @mysql_fetch_assoc($result)) {
+  while ($row = @mysqli_fetch_assoc($result)) {
     $geocode_pending = true;
 
     while ($geocode_pending) {
@@ -48,12 +48,12 @@ function geocode($table) {
         $query = sprintf("UPDATE $table " .
               " SET lat = '%s', lng = '%s' " .
               " WHERE id = '%s' LIMIT 1;",
-              mysql_real_escape_string($lat),
-              mysql_real_escape_string($lng),
-              mysql_real_escape_string($id));
-        $update_result = mysql_query($query);
+              ((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $lat) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : "")),
+              ((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $lng) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : "")),
+              ((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $id) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : "")));
+        $update_result = mysqli_query($GLOBALS["___mysqli_ston"], $query);
         if (!$update_result) {
-          die("Invalid query: " . mysql_error());
+          die("Invalid query: " . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
         }
       } else if (strcmp($status, "620") == 0) {
         // sent geocodes too fast
@@ -70,9 +70,7 @@ function geocode($table) {
 
   // finish
   if(@$hide_geocode_output != true) {
-    echo mysql_num_rows($result)." $table geocoded<br />";
+    echo mysqli_num_rows($result)." $table geocoded<br />";
   }
 
 }
-
-?>

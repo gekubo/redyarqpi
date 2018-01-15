@@ -15,7 +15,6 @@ figcaption,
 figure,
 footer,
 header,
-hgroup,
 nav,
 section {
   display: block;
@@ -621,7 +620,7 @@ blockquote p {
   margin-bottom: 0;
   font-size: 16px;
   font-weight: 300;
-  line-height: 22.5px;
+  line-height: 22px;
 }
 
 blockquote small {
@@ -689,9 +688,9 @@ code {
 
 pre {
   display: block;
-  padding: 8.5px;
+  padding: 9px;
   margin: 0 0 9px;
-  font-size: 12.025px;
+  font-size: 12px;
   line-height: 18px;
   word-break: break-all;
   word-wrap: break-word;
@@ -736,7 +735,7 @@ legend {
   width: 100%;
   padding: 0;
   margin-bottom: 27px;
-  font-size: 19.5px;
+  font-size: 20px;
   line-height: 36px;
   color: #333333;
   border: 0;
@@ -744,7 +743,7 @@ legend {
 }
 
 legend small {
-  font-size: 13.5px;
+  font-size: 13px;
   color: #999999;
 }
 
@@ -2457,7 +2456,9 @@ table .span24 {
 }
 
 .typeahead {
-  margin-top: 2px;
+ width: 130px;
+ height: 100px;
+  margin-top: -150px;
   -webkit-border-radius: 4px;
      -moz-border-radius: 4px;
           border-radius: 4px;
@@ -4485,7 +4486,7 @@ a.thumbnail:hover {
 
 .label,
 .badge {
-  font-size: 10.998px;
+  font-size: 11px;
   font-weight: bold;
   line-height: 14px;
   color: #ffffff;

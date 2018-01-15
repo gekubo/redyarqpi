@@ -13,7 +13,7 @@ function Label(opt_options) {
   var div = this.div_ = document.createElement('div');
   div.appendChild(span);
   div.style.cssText = 'position: absolute; display: none';
-};
+}
 Label.prototype = new google.maps.OverlayView;
 
 
